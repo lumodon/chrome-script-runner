@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      button {
+        min-height: 30px;
+        min-width: 30px;
+        outline: none;
+      }
+      .flex {
+        display: flex;
+        justify-content: space-around;
+      }
+      .column {
+        flex-direction: column;
+      }
+      .outer-container {
+        height: 320px
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex column outer-container">
+      <div class="flex">
+        <h3>Current Tab Script</h3>
+        <div class="flex column">
+          <div>
+            <button id="save">Save</button>
+            <button id="delete">Delete</button>
+          </div>
+        </div>
+        <div class="flex column">
+          <div>
+            <input id="tabInputField" readonly type="text" />
+          </div>
+          <div>
+            <textarea id="scriptArea" cols="30" rows="9"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <h3>Other Script</h3>
+        <div class="flex column">
+          <div>
+            <button id="save-other">Save</button>
+            <button id="delete-other">Delete</button>
+          </div>
+        </div>
+        <div class="flex column">
+          <div>
+            <select id="otherSiteDomain">
+              <option selected disabled value="null">Select domain</option>
+            </select>
+          </div>
+          <div>
+            <textarea id="scriptArea-other" cols="30" rows="9"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "Script Runner",
+  "version": "1.0",
+  "description": "Run scripts",
+  "manifest_version": 2,
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/16.ico"
+    }
+  },
+  "icons": {
+    "16": "images/16.ico"
+  },
+  "permissions": [
+    "storage",
+    "declarativeContent",
+    "activeTab",
+    "tabs"
+  ]
+}
