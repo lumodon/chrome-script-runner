@@ -17,6 +17,14 @@
       .outer-container {
         height: 320px
       }
+      .script-area-container {
+        width: 300px;
+        height: 125px;
+      }
+      .script-area-container > pre {
+        width: 100%;
+        height: 100%;
+      }
     </style>
   </head>
   <body>
@@ -33,8 +41,8 @@
           <div>
             <input id="tabInputField" readonly type="text" />
           </div>
-          <div>
-            <textarea id="scriptArea" cols="30" rows="9"></textarea>
+          <div class="script-area-container">
+            <pre id="scriptArea"></pre>
           </div>
         </div>
       </div>
@@ -51,12 +59,13 @@
             <select id="otherSiteDomain">
             </select>
           </div>
-          <div>
-            <textarea id="scriptArea-other" cols="30" rows="9"></textarea>
+          <div class="script-area-container">
+            <pre id="scriptArea-other"></pre>
           </div>
         </div>
       </div>
     </div>
+    <script src="ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="popup.js"></script>
   </body>
 </html>

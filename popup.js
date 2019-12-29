@@ -1,7 +1,13 @@
+require('ace/src-min/theme-chrome.js')
+var editor = ace.edit("scriptArea");
+editor.setTheme("ace/theme/chrome");
+editor.session.setMode("ace/mode/javascript");
+var editor2 = ace.edit("scriptArea-other");
+editor2.setTheme("ace/theme/chrome");
+editor2.session.setMode("ace/mode/javascript");
+
 const tabInputField = document.getElementById('tabInputField')
 const otherSiteDomainList = document.getElementById('otherSiteDomain')
-const scriptArea = document.getElementById('scriptArea')
-const scriptAreaOther = document.getElementById('scriptArea-other')
 const saveBtn = document.getElementById('save')
 const saveBtnOther = document.getElementById('save-other')
 const deleteBtn = document.getElementById('delete')
@@ -31,7 +37,7 @@ async function populateFields() {
   const scripts = await getData('scripts')
   console.log('scripts', scripts)
   if(scripts[tabInputField.value]) {
-    scriptArea.value = scripts[tabInputField.value]
+    editor.setValue(scripts[tabInputField.value])
   }
 }
 
@@ -52,7 +58,7 @@ function selectDomain(domain) {
 async function handleViewDomain(domain) {
   const scripts = await getData('scripts')
   if(scripts.hasOwnProperty(domain)) {
-    scriptAreaOther.value = scripts[domain]
+    editor2.setValue(scripts[domain])
   }
 }
 
@@ -88,7 +94,7 @@ saveBtn.addEventListener('click', async (evt) => {
   const scripts = await getData('scripts')
   chrome.storage.sync.set({scripts: {
     ...scripts,
-    [tabInputField.value]: scriptArea.value
+    [tabInputField.value]: editor.getValue()
   }})
   Initialization()
 })
@@ -98,10 +104,18 @@ saveBtnOther.addEventListener('click', async (evt) => {
   const scripts = await getData('scripts')
   chrome.storage.sync.set({scripts: {
     ...scripts,
-    [otherSiteDomainList.value]: scriptAreaOther.value
+    [otherSiteDomainList.value]: editor2.getValue()
   }})
   Initialization()
 })
+
+// TODO:
+// When deleting a domain from the script-other section, if script-current-tab
+// section is also on same domain it doesn't delete.
+//
+// Need some sort of pub-sub model or some other pattern to have multiple
+// events fired on deletion etc. Need each script section to be "reactive"
+// to state changes...   sounds familiar ;-)
 
 deleteBtn.addEventListener('click', async (evt) => {
   evt.preventDefault()
@@ -115,10 +129,7 @@ deleteBtn.addEventListener('click', async (evt) => {
   chrome.storage.sync.set({scripts})
   if(Object.keys(scripts).length > 0) {
     domain = Object.keys(scripts)[0]
-    scriptArea.value = scripts[domain]
-  } else {
-    tabInputField.value = 'no scripts'
-    scriptArea.value = ''
+    editor.setValue(scripts[doinnerText])
   }
   Initialization()
 })
@@ -134,11 +145,11 @@ deleteBtnOther.addEventListener('click', async (evt) => {
   delete scripts[domain]
   chrome.storage.sync.set({scripts})
   if(Object.keys(scripts).length > 0) {
-    domain = Object.keys(scripts)[0]
-    scriptAreaOther.value = scripts[domain]
+    otherSiteDomainList.value = Object.keys(scripts)[0]
+    editor2.setValue(scripts[domain])
   } else {
-    otherSiteDomainList.value = 'no scripts'
-    scriptAreaOther.value = ''
+    selectDomain('null')
+    editor2.setValue('')
   }
   Initialization()
 })
