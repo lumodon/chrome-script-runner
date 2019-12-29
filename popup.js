@@ -58,6 +58,16 @@ async function handleViewDomain(domain) {
 
 async function Initialization() {
   populateFields()
+  Array.from(otherSiteDomainList.children).forEach(child => {
+    otherSiteDomainList.removeChild(child)
+  })
+  defaultOption = document.createElement('option')
+  defaultOption.setAttribute('selected', '')
+  defaultOption.setAttribute('disabled', '')
+  defaultOption.setAttribute('value', 'null')
+  defaultOption.innerText = 'Select domain'
+  otherSiteDomainList.appendChild(defaultOption)
+
   const scripts = await getData('scripts')
   for(const domain in scripts) {
     const selectOption = document.createElement('option')
